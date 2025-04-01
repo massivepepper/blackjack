@@ -1,0 +1,23 @@
+{
+    "name": "Blackjack Trainer",
+    "short_name": "BJT",
+    "start_url": "index.html",
+    "scope": "/",
+    "background_color": "#5900b3",
+    "theme_color": "black",
+    "description": "Train blackjack basic strategy",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/public/icons/web-app-manifest-512x512.png",
+            "type": "images/png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "/public/icons/web-app-manifest-192x192.png",
+            "type": "images/png",
+            "sizes": "192x192"
+        }
+    ]
+}
