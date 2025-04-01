@@ -28,6 +28,11 @@ h2 {
     width: var(--table-width);
     margin: 2rem 1rem;
 }
+@supports (height: calc(100dvh - 4rem)) {
+    #PlayingTable {
+        height: calc(100dvh - 4rem)
+    }
+}
 
 #PlayerSection {
     align-content: end;
@@ -97,7 +102,6 @@ h2 {
 }
 
 #ButtonsParent {
-    outline: solid 2px var(--text-color);
     height: 100px;
     width: 100%;
     margin: auto;
@@ -148,9 +152,6 @@ h2 {
 #LoseText,
 #PushText,
 .placeholder {
-    top: 0;
-    right: 0;
-    left: 0;
     text-align: center;
     height: 64px;
     line-height: 64px;
@@ -171,11 +172,9 @@ h2 {
 
 #Overlay {
     position: fixed;
-    top: 25%;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    top: 15%;
     height: 250px;
-    width: calc(var(--table-width) - 2rem);
+    width: var(--table-width);
     display: flex;
     flex-direction: column;
 }
