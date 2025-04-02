@@ -25,6 +25,10 @@ button {
     color: var(--text-color);
     background-color: var(--background-color);
     border: solid 1px var(--text-color);
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 #PlayingTable {
@@ -137,12 +141,6 @@ button {
         font-size: 16px;
         line-height: 0;
         width: 25%;
-
-        &:hover {
-            cursor: pointer;
-            background-color: var(--text-color);
-            color: var(--background-color);
-        }
     }
 }
 
@@ -207,9 +205,10 @@ button {
     overflow: auto;
     
     #CloseBasicStrategyGuide {
-        position: absolute;
+        position: sticky;
         top: 1rem;
-        right: 1rem;
+        right: 1em;
+        float: right;
         padding: .5rem 1rem;
         font-size: 15px;
     }
