@@ -33,13 +33,23 @@
                 document.getElementById('StandButton').addEventListener('click', () => turnButton(kStand));
                 document.getElementById('DoubleButton').addEventListener('click', () => turnButton(kDouble));
                 document.getElementById('SplitButton').addEventListener('click', () => turnButton(kSplit));
+
+                document.getElementById('DealerHeader').addEventListener('click', () => {
+                    document.getElementById('BasicStrategyGuide').classList.remove('collapse');
+                });
+                document.getElementById('CloseBasicStrategyGuide').addEventListener('click', () => {
+                    document.getElementById('BasicStrategyGuide').classList.add('collapse');
+                });
             }
         </script>
     </head>
     <body>
         <div id="PlayingTable">
             <div id="DealerSection">
-                <div class="score">0</div>
+                <button type="button" id="DealerHeader">
+                    <div>Basic Strategy Guide</div>
+                    <div class="score">0</div>
+                </button>
                 <div class="card-section">
                 </div>
             </div>
@@ -145,6 +155,503 @@
                     Split
                 </button>
             </div>
+        </div>
+        <div id="BasicStrategyGuide" class="collapse">
+            <button type="button" id="CloseBasicStrategyGuide">X</button>
+            <table id="tblBasicStrategy">
+                <tbody>
+                    <tr>
+                        <td colspan="11">Dealer Upcard (Hard Totals)</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td>7</td>
+                        <td>8</td>
+                        <td>9</td>
+                        <td>10</td>
+                        <td>A</td>
+                    </tr>
+                    <tr>
+                        <td>17</td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                    </tr>
+                    <tr>
+                        <td>16</td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td>14</td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td class="hit"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="11">Dealer Upcard (Soft Totals)</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td>7</td>
+                        <td>8</td>
+                        <td>9</td>
+                        <td>10</td>
+                        <td>A</td>
+                    </tr>
+                    <tr>
+                        <td>A9</td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                    </tr>
+                    <tr>
+                        <td>A8</td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="double-stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                    </tr>
+                    <tr>
+                        <td>A7</td>
+                        <td class="double-stand"></td>
+                        <td class="double-stand"></td>
+                        <td class="double-stand"></td>
+                        <td class="double-stand"></td>
+                        <td class="double-stand"></td>
+                        <td class="stand"></td>
+                        <td class="stand"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td>A6</td>
+                        <td class="hit"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td>A5</td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td>A4</td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td>A3</td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td>A2</td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="double"></td>
+                        <td class="double"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                        <td class="hit"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="11">Dealer Upcard (Splitting)</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td>7</td>
+                        <td>8</td>
+                        <td>9</td>
+                        <td>10</td>
+                        <td>A</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="no"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td class="yes-no"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="yes-no"></td>
+                        <td class="yes-no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td class="yes-no"></td>
+                        <td class="yes-no"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="yes-no"></td>
+                        <td class="yes-no"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="yes"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                        <td class="no"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="11">Dealer Upcard (Surrendering)</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td>7</td>
+                        <td>8</td>
+                        <td>9</td>
+                        <td>10</td>
+                        <td>A</td>
+                    </tr>
+                    <tr>
+                        <td>16</td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class="surrender"></td>
+                        <td class="surrender"></td>
+                        <td class="surrender"></td>
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class="surrender"></td>
+                        <td class=""></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table id="tblGuideKey">
+                <tbody>
+                    <tr>
+                        <td>H</td>
+                        <td>Hit</td>
+                    </tr>
+                    <tr>
+                        <td>S</td>
+                        <td>Stand</td>
+                    </tr>
+                    <tr>
+                        <td>D</td>
+                        <td>Double if allowed, hit otherwise</td>
+                    </tr>
+                    <tr>
+                        <td>Ds</td>
+                        <td>Double if allowed, stand otherwise</td>
+                    </tr>
+                    <tr>
+                        <td>Y</td>
+                        <td>Split Pair</td>
+                    </tr>
+                    <tr>
+                        <td>N</td>
+                        <td>Don't Split Pair</td>
+                    </tr>
+                    <tr>
+                        <td>YN</td>
+                        <td>Split Pair only if Double After Split offered</td>
+                    </tr>
+                    <tr>
+                        <td>R</td>
+                        <td>Surrender</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <script type="text/javascript">
         (function() {

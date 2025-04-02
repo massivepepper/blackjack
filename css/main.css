@@ -1,5 +1,5 @@
 body {
-    --text-color: #777;
+    --text-color: #969696;
     --table-width: calc(min(calc(100vw - 2px), 500px));
     --background-color: #0b1e01;
 
@@ -7,10 +7,10 @@ body {
     margin: 0;
     display: flex;
     justify-content: center;
+    color: var(--text-color);
 }
 
 h1, h2 {
-    color: var(--text-color);
     font-size: 64px;
     text-align: center;
 }
@@ -21,16 +21,37 @@ h2 {
     font-size: 36px;
 }
 
+button {
+    color: var(--text-color);
+    background-color: var(--background-color);
+    border: solid 1px var(--text-color);
+}
+
 #PlayingTable {
     display: grid;
     grid-template-areas: "DealerSection" "PlayerSection";
     height: calc(100vh - 4rem);
     width: var(--table-width);
-    margin: 2rem 1rem;
+    margin: 1rem 1rem 2rem;
 }
-@supports (height: calc(100dvh - 4rem)) {
+@supports (height: 100dvh) {
     #PlayingTable {
-        height: calc(100dvh - 4rem)
+        height: calc(100dvh - 3rem)
+    }
+}
+
+#DealerHeader {
+    border: none;
+    width: 100%;
+    padding: 0;
+
+    div {
+        padding: .25rem 0;
+    }
+    div:not(.score) {
+        border: solid 1px var(--text-color);
+        border-bottom: none;
+        font-size: 20px;
     }
 }
 
@@ -46,7 +67,7 @@ h2 {
         width: 50%;
         border: solid 1px var(--text-color);
         color: var(--text-color);
-        font-size: 24px;
+        font-size: 20px;
     }
 }
 
@@ -59,12 +80,12 @@ h2 {
 .score {
     border: solid 1px var(--text-color);
     color: var(--text-color);
-    font-size: 48px;
+    font-size: 32px;
     text-align: center;
 }
 .playing-card {
     --text-color: black;
-    --background-color: #777;
+    --background-color: #969696;
     cursor: default;
     background-color: var(--background-color);
     border: solid 1px var(--text-color);
@@ -104,7 +125,6 @@ h2 {
 #ButtonsParent {
     height: 100px;
     width: 100%;
-    margin: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,7 +133,6 @@ h2 {
         height: 3rem;
         margin: 0.25rem;
         background-color: var(--background-color);
-        color: var(--text-color);
         border: solid 1px var(--text-color);
         font-size: 16px;
         line-height: 0;
@@ -136,8 +155,8 @@ h2 {
 
 #PlayingCardDeck > .playing-card,
 .playing-card.flipped {
-    background-color: var(--text-color);
     color: var(--text-color);
+    background-color: var(--text-color);
     border: solid 1px var(--background-color);
 }
 
@@ -157,7 +176,6 @@ h2 {
     line-height: 64px;
     padding: 1rem;
     font-size: 64px;
-    color: var(--text-color);
 }
 
 #WinText {
@@ -172,9 +190,109 @@ h2 {
 
 #Overlay {
     position: fixed;
-    top: 15%;
+    top: 20%;
     height: 250px;
     width: var(--table-width);
     display: flex;
     flex-direction: column;
+}
+
+#BasicStrategyGuide {
+    z-index: 9999;
+    background-color: var(--background-color);
+    position: fixed;
+    width: 100vw;
+    width: var(--table-width);
+    max-height: 100vh;
+    overflow: auto;
+    
+    #CloseBasicStrategyGuide {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: .5rem 1rem;
+        font-size: 15px;
+    }
+
+}
+@supports (height: 100dvh) {
+    #BasicStrategyGuide {
+        height: 100dvh;
+    }
+}
+
+#tblBasicStrategy {
+    width: calc(100% - 2rem);
+    margin: 1rem;
+    font-size: 16px;
+    border-collapse: collapse;
+
+    td {
+        width: 9%;
+        text-align: center;
+        border: solid 1px var(--text-color);
+        padding: .5rem;
+    }
+    td.stand {
+        color: #727c00;
+        &::after {
+            content: "S";
+        }
+    }
+    td.hit {
+        &::after {
+            content: "H";
+        }
+    }
+    td.double {
+        color: #048c26;
+        &::after {
+            content: "D";
+        }
+    }
+    td.double-stand {
+        color: #009b91;
+        padding: 0;
+        &::after {
+            content: "Ds";
+        }
+    }
+    td.yes {
+        color: #048c26;
+        &::after {
+            content: "Y";
+        }
+    }
+    td.no {
+        &::after {
+            content: "N";
+        }
+    }
+    td.yes-no {
+        color: #009b91;
+        padding: 0;
+        &::after {
+            content: "YN";
+        }
+    }
+    td.surrender {
+        color: #048c26;
+        &::after {
+            content: "R";
+        }
+    }
+}
+
+#tblGuideKey {
+    width: calc(100% - 2rem);
+    margin: 1rem;
+    font-size: 16px;
+    border-collapse: collapse;
+    td {
+        border: solid 1px var(--text-color);
+        padding: .25rem .5rem;
+    }
+    td:first-child {
+        text-align: center;
+    }
 }
