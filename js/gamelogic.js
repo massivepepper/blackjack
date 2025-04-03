@@ -131,6 +131,13 @@ function endGame() {
     else if (playerScore < dealerScore) {
         result = kLose;
     }
+    else if (dealerScore === kWinningScore &&
+        getDealerSection().querySelectorAll('.playing-card').length === 2 &&
+        getPlayerSection().querySelectorAll('.playing-card').length > 2) {
+
+        // Dealer blackjack beats player's unnatural 21
+        result = kLose;
+    }
     else {
         result = kPush;
     }
@@ -156,6 +163,7 @@ async function dealerTurn() {
     showGameplayButtons(false);
     document.getElementById('DealButton').classList.add('collapse');
     showAllDealerCards();
+
     while (getDealerScore() < kDealerStands) {
         await sleep(kDealDelay);
         dealCard(getDealerSection(), false);

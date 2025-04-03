@@ -180,8 +180,7 @@ function checkTurn(turnType) {
 
     const playerCards = getPlayerSection().querySelectorAll('.playing-card');
 
-    if (playerCards.length === 2 &&
-        playerCards[0].dataset.value === playerCards[1].dataset.value &&
+    if (checkPlayerCanSplit() &&
         checkBasicStrategySplits(dealerUpValue, parseInt(playerCards[0].dataset.value))) {
 
         logBSResult(playerTotal, dealerUpValue, getPlayerScoreAcesLow(), turnType, kSplit);
@@ -213,6 +212,10 @@ function updateBasicStrategyScore(turnType) {
     total++;
     if (checkTurn(turnType)) {
         correct++;
+        bsScore.classList.remove('incorrect');
+    }
+    else {
+        bsScore.classList.add('incorrect');
     }
     bsScore.dataset.correct = correct;
     bsScore.dataset.total = total;
@@ -258,6 +261,5 @@ function logBSResult(playerScore, dealerUpValue, playerScoreAcesLow, turnPlayed,
     }
 
     if (turnPlayed !== expectedTurn) {
-        console.log(`Player had ${playerScore}, ${playerScoreAcesLow} aces low. Dealer had ${dealerUpValue}. Played ${strTurnPlayed}, expected ${strExpectedTurn}`);
     }
 }

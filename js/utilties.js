@@ -52,6 +52,14 @@ function getDealerScore() {
     return getScore(getDealerSection());
 }
 
+function checkPlayerCanSplit() {
+    const playerHand = getPlayerSection().querySelectorAll('.playing-card');
+    if (playerHand.length !== 2) {
+        return false;
+    }
+    return parseInt(playerHand[0].dataset.value) === parseInt(playerHand[1].dataset.value);
+}
+
 /**
  * Must be used in an async function with the await keyword
  * (e.g. await sleep(500))
@@ -141,7 +149,12 @@ function showGameplayButtons(gameStarted) {
     for (const btn of document.querySelectorAll(query)) {
         if (gameStarted) {
             btn.classList.remove('collapse');
-            btn.classList.remove('hidden');
+            if (btn.id === 'SplitButton' && !checkPlayerCanSplit()) {
+                btn.classList.add('hidden');
+            }
+            else {
+                btn.classList.remove('hidden');
+            }
         }
         else {
             btn.classList.add('collapse');
