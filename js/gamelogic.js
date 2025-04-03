@@ -76,6 +76,7 @@ async function startGame(e) {
     }
     else {
         showGameplayButtons(true);
+        logNewDeal();
     }
 }
 
@@ -213,7 +214,7 @@ function turnButton(type) {
 }
 
 function hit() {
-    dealCard(getPlayerSection(), false);
+    logDeal(dealCard(getPlayerSection(), false));
     document.getElementById('DoubleButton').classList.add('hidden');
     document.getElementById('SplitButton').classList.add('hidden');
     turnLogic();
@@ -228,7 +229,7 @@ function stand() {
 }
 
 function double() {
-    dealCard(getPlayerSection(), false);
+    logDeal(dealCard(getPlayerSection(), false));
     getPlayerSection().dataset.doubled = 1;
     turnLogic();
     if (getPlayerScore() <= 21) {

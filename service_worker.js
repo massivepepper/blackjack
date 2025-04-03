@@ -1,14 +1,17 @@
-const staticBlackjack = 'blackjack-trainer-v2.1';
+const staticBlackjack = 'blackjack-trainer-v3';
 const assets = [
-    '/src/',
-    '/src/index.html',
-    '/src/error.html',
-    '/src/public/css/main.css',
-    '/src/public/icons/web-app-manifest-192x192.png',
-    '/src/public/icons/web-app-manifest-512x512.png',
-    '/src/public/js/basic_strategy.js',
-    '/src/public/js/gamelogic.js',
-    '/src/public/js/utilities.sj'
+    '/',
+    '/index.html',
+    '/css/main.css',
+    '/css/popups.css',
+    '/css/gameplay.css',
+    '/css/card_deck.css',
+    '/icons/web-app-manifest-192x192.png',
+    '/icons/web-app-manifest-512x512.png',
+    '/js/basic_strategy.js',
+    '/js/gamelogic.js',
+    '/js/utilities.js',
+    '/js/turn_log.js'
 ];
 
 self.addEventListener('install', installEvent => {

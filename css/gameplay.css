@@ -1,0 +1,120 @@
+#PlayingTable {
+    display: grid;
+    grid-template-areas: "DealerSection" "PlayerSection";
+    height: calc(100vh - 4rem);
+    width: var(--table-width);
+    margin: 1rem 1rem 2rem;
+}
+@supports (height: 100dvh) {
+    #PlayingTable {
+        height: calc(100dvh - 3rem)
+    }
+}
+
+#WinText,
+#LoseText,
+#PushText,
+.placeholder {
+    text-align: center;
+    height: 64px;
+    line-height: 64px;
+    padding: 1rem;
+    font-size: 64px;
+}
+
+#WinText {
+    background-color: rgba(36, 102, 70, 0.7);
+}
+#LoseText {
+    background-color: rgba(127, 1, 1, 0.7);
+}
+#PushText {
+    background-color: rgba(76, 76, 76, 0.7);
+}
+
+#Overlay {
+    position: fixed;
+    top: 20%;
+    height: 250px;
+    width: var(--table-width);
+    display: flex;
+    flex-direction: column;
+}
+
+#DealerHeader, #HandHistoryButton {
+    border: none;
+    width: 100%;
+    padding: 0;
+}
+#DealerHeader {
+    div {
+        padding: .25rem 0;
+    }
+    div:not(.score) {
+        border: solid 1px var(--text-color);
+        border-bottom: none;
+        font-size: 20px;
+    }
+}
+#HandHistoryButton {
+    div.score {
+        border-bottom: none;
+    }
+    #Results > #Correct {
+        border-right: none;
+    }
+}
+
+#PlayerSection {
+    align-content: end;
+}
+
+#HandHistoryButton {
+    border: none;
+}
+
+#Results {
+    display: flex;
+    text-align: center;
+
+    #Correct, #Record {
+        width: 50%;
+        border: solid 1px var(--text-color);
+        color: var(--text-color);
+        font-size: 20px;
+    }
+}
+.incorrect {
+    background-color: #510000;
+}
+
+.card-section {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 108px;
+}
+.score {
+    border: solid 1px var(--text-color);
+    color: var(--text-color);
+    font-size: 32px;
+    text-align: center;
+}
+
+#ButtonsParent {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    button {
+        height: 3rem;
+        margin: 0.25rem;
+        background-color: var(--background-color);
+        border: solid 1px var(--text-color);
+        font-size: 16px;
+        line-height: 0;
+        width: 25%;
+    }
+}

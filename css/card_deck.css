@@ -1,0 +1,52 @@
+.playing-card {
+    --text-color: black;
+    --background-color: #969696;
+    cursor: default;
+    background-color: var(--background-color);
+    border: solid 1px var(--text-color);
+    height: 100px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 48px;
+    width: 60px;
+    margin: 3px;
+    color: var(--text-color);
+}
+.spades {
+    color: black;
+    &::after {
+        content: "\2660";
+    }
+}
+.clubs {
+    color: black;
+    &::after {
+        content: "\2663";
+    }
+}
+.hearts {
+    color: darkred;
+    &::after {
+        content: "\2665";
+    }
+}
+.diamonds {
+    color: darkred;
+    &::after {
+        content: "\2666";
+    }
+}
+
+#PlayingCardDeck {
+    display: none;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+#PlayingCardDeck > .playing-card,
+.playing-card.flipped {
+    color: var(--text-color);
+    background-color: var(--text-color);
+    border: solid 1px var(--background-color);
+}

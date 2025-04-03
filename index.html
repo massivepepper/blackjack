@@ -15,7 +15,11 @@
         <link rel="manifest" href="manifest.json">
 
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/popups.css">
+        <link rel="stylesheet" href="css/card_deck.css">
+        <link rel="stylesheet" href="css/gameplay.css">
         <script type="text/javascript" src="js/utilties.js"></script>
+        <script type="text/javascript" src="js/turn_log.js"></script>
         <script type="text/javascript" src="js/basic_strategy.js"></script>
         <script type="text/javascript" src="js/gamelogic.js"></script>
 
@@ -40,6 +44,21 @@
                 document.getElementById('CloseBasicStrategyGuide').addEventListener('click', () => {
                     document.getElementById('BasicStrategyGuide').classList.add('collapse');
                 });
+                document.getElementById('SwitchToBasicStrategyGuide').addEventListener('click', () => {
+                    document.getElementById('BasicStrategyGuide').classList.remove('collapse');
+                    document.getElementById('HandHistory').classList.add('collapse');
+                });
+
+                document.getElementById('HandHistoryButton').addEventListener('click', () => {
+                    document.getElementById('HandHistory').classList.remove('collapse');
+                });
+                document.getElementById('CloseHandHistory').addEventListener('click', () => {
+                    document.getElementById('HandHistory').classList.add('collapse');
+                });
+                document.getElementById('SwitchToHandHistory').addEventListener('click', () => {
+                    document.getElementById('HandHistory').classList.remove('collapse');
+                    document.getElementById('BasicStrategyGuide').classList.add('collapse');
+                });
             }
         </script>
     </head>
@@ -54,82 +73,84 @@
                 </div>
             </div>
             <div id="PlayingCardDeck">
-                <div class="clubs playing-card" data-value="1">A<br></div>
-                <div class="clubs playing-card" data-value="2">2<br></div>
-                <div class="clubs playing-card" data-value="3">3<br></div>
-                <div class="clubs playing-card" data-value="4">4<br></div>
-                <div class="clubs playing-card" data-value="5">5<br></div>
-                <div class="clubs playing-card" data-value="6">6<br></div>
-                <div class="clubs playing-card" data-value="7">7<br></div>
-                <div class="clubs playing-card" data-value="8">8<br></div>
-                <div class="clubs playing-card" data-value="9">9<br></div>
-                <div class="clubs playing-card" data-value="10">10<br></div>
-                <div class="clubs playing-card" data-value="10">J<br></div>
-                <div class="clubs playing-card" data-value="10">Q<br></div>
-                <div class="clubs playing-card" data-value="10">K<br></div>
-                <div class="spades playing-card" data-value="1">A<br></div>
-                <div class="spades playing-card" data-value="2">2<br></div>
-                <div class="spades playing-card" data-value="3">3<br></div>
-                <div class="spades playing-card" data-value="4">4<br></div>
-                <div class="spades playing-card" data-value="5">5<br></div>
-                <div class="spades playing-card" data-value="6">6<br></div>
-                <div class="spades playing-card" data-value="7">7<br></div>
-                <div class="spades playing-card" data-value="8">8<br></div>
-                <div class="spades playing-card" data-value="9">9<br></div>
-                <div class="spades playing-card" data-value="10">10<br></div>
-                <div class="spades playing-card" data-value="10">J<br></div>
-                <div class="spades playing-card" data-value="10">Q<br></div>
-                <div class="spades playing-card" data-value="10">K<br></div>
-                <div class="diamonds playing-card" data-value="1">A<br></div>
-                <div class="diamonds playing-card" data-value="2">2<br></div>
-                <div class="diamonds playing-card" data-value="3">3<br></div>
-                <div class="diamonds playing-card" data-value="4">4<br></div>
-                <div class="diamonds playing-card" data-value="5">5<br></div>
-                <div class="diamonds playing-card" data-value="6">6<br></div>
-                <div class="diamonds playing-card" data-value="7">7<br></div>
-                <div class="diamonds playing-card" data-value="8">8<br></div>
-                <div class="diamonds playing-card" data-value="9">9<br></div>
-                <div class="diamonds playing-card" data-value="10">10<br></div>
-                <div class="diamonds playing-card" data-value="10">J<br></div>
-                <div class="diamonds playing-card" data-value="10">Q<br></div>
-                <div class="diamonds playing-card" data-value="10">K<br></div>
-                <div class="hearts playing-card" data-value="1">A<br></div>
-                <div class="hearts playing-card" data-value="2">2<br></div>
-                <div class="hearts playing-card" data-value="3">3<br></div>
-                <div class="hearts playing-card" data-value="4">4<br></div>
-                <div class="hearts playing-card" data-value="5">5<br></div>
-                <div class="hearts playing-card" data-value="6">6<br></div>
-                <div class="hearts playing-card" data-value="7">7<br></div>
-                <div class="hearts playing-card" data-value="8">8<br></div>
-                <div class="hearts playing-card" data-value="9">9<br></div>
-                <div class="hearts playing-card" data-value="10">10<br></div>
-                <div class="hearts playing-card" data-value="10">J<br></div>
-                <div class="hearts playing-card" data-value="10">Q<br></div>
-                <div class="hearts playing-card" data-value="10">K<br></div>
-                <div class="hearts playing-card" data-value="5">5<br></div>
-                <div class="hearts playing-card" data-value="6">6<br></div>
-                <div class="hearts playing-card" data-value="7">7<br></div>
-                <div class="hearts playing-card" data-value="8">8<br></div>
-                <div class="hearts playing-card" data-value="9">9<br></div>
-                <div class="hearts playing-card" data-value="10">10<br></div>
-                <div class="hearts playing-card" data-value="10">J<br></div>
-                <div class="hearts playing-card" data-value="10">Q<br></div>
-                <div class="hearts playing-card" data-value="10">K<br></div>
+                <div class="clubs playing-card" data-value="1" data-display="A">A<br></div>
+                <div class="clubs playing-card" data-value="2" data-display="2">2<br></div>
+                <div class="clubs playing-card" data-value="3" data-display="3">3<br></div>
+                <div class="clubs playing-card" data-value="4" data-display="4">4<br></div>
+                <div class="clubs playing-card" data-value="5" data-display="5">5<br></div>
+                <div class="clubs playing-card" data-value="6" data-display="6">6<br></div>
+                <div class="clubs playing-card" data-value="7" data-display="7">7<br></div>
+                <div class="clubs playing-card" data-value="8" data-display="8">8<br></div>
+                <div class="clubs playing-card" data-value="9" data-display="9">9<br></div>
+                <div class="clubs playing-card" data-value="10" data-display="10">10<br></div>
+                <div class="clubs playing-card" data-value="10" data-display="J">J<br></div>
+                <div class="clubs playing-card" data-value="10" data-display="Q">Q<br></div>
+                <div class="clubs playing-card" data-value="10" data-display="K">K<br></div>
+                <div class="spades playing-card" data-value="1" data-display="A">A<br></div>
+                <div class="spades playing-card" data-value="2" data-display="2">2<br></div>
+                <div class="spades playing-card" data-value="3" data-display="3">3<br></div>
+                <div class="spades playing-card" data-value="4" data-display="4">4<br></div>
+                <div class="spades playing-card" data-value="5" data-display="5">5<br></div>
+                <div class="spades playing-card" data-value="6" data-display="6">6<br></div>
+                <div class="spades playing-card" data-value="7" data-display="7">7<br></div>
+                <div class="spades playing-card" data-value="8" data-display="8">8<br></div>
+                <div class="spades playing-card" data-value="9" data-display="9">9<br></div>
+                <div class="spades playing-card" data-value="10" data-display="10">10<br></div>
+                <div class="spades playing-card" data-value="10" data-display="J">J<br></div>
+                <div class="spades playing-card" data-value="10" data-display="Q">Q<br></div>
+                <div class="spades playing-card" data-value="10" data-display="K">K<br></div>
+                <div class="diamonds playing-card" data-value="1" data-display="A">A<br></div>
+                <div class="diamonds playing-card" data-value="2" data-display="2">2<br></div>
+                <div class="diamonds playing-card" data-value="3" data-display="3">3<br></div>
+                <div class="diamonds playing-card" data-value="4" data-display="4">4<br></div>
+                <div class="diamonds playing-card" data-value="5" data-display="5">5<br></div>
+                <div class="diamonds playing-card" data-value="6" data-display="6">6<br></div>
+                <div class="diamonds playing-card" data-value="7" data-display="7">7<br></div>
+                <div class="diamonds playing-card" data-value="8" data-display="8">8<br></div>
+                <div class="diamonds playing-card" data-value="9" data-display="9">9<br></div>
+                <div class="diamonds playing-card" data-value="10" data-display="10">10<br></div>
+                <div class="diamonds playing-card" data-value="10" data-display="J">J<br></div>
+                <div class="diamonds playing-card" data-value="10" data-display="Q">Q<br></div>
+                <div class="diamonds playing-card" data-value="10" data-display="K">K<br></div>
+                <div class="hearts playing-card" data-value="1" data-display="A">A<br></div>
+                <div class="hearts playing-card" data-value="2" data-display="2">2<br></div>
+                <div class="hearts playing-card" data-value="3" data-display="3">3<br></div>
+                <div class="hearts playing-card" data-value="4" data-display="4">4<br></div>
+                <div class="hearts playing-card" data-value="5" data-display="5">5<br></div>
+                <div class="hearts playing-card" data-value="6" data-display="6">6<br></div>
+                <div class="hearts playing-card" data-value="7" data-display="7">7<br></div>
+                <div class="hearts playing-card" data-value="8" data-display="8">8<br></div>
+                <div class="hearts playing-card" data-value="9" data-display="9">9<br></div>
+                <div class="hearts playing-card" data-value="10" data-display="10">10<br></div>
+                <div class="hearts playing-card" data-value="10" data-display="J">J<br></div>
+                <div class="hearts playing-card" data-value="10" data-display="Q">Q<br></div>
+                <div class="hearts playing-card" data-value="10" data-display="K">K<br></div>
+                <div class="hearts playing-card" data-value="5" data-display="5">5<br></div>
+                <div class="hearts playing-card" data-value="6" data-display="6">6<br></div>
+                <div class="hearts playing-card" data-value="7" data-display="7">7<br></div>
+                <div class="hearts playing-card" data-value="8" data-display="8">8<br></div>
+                <div class="hearts playing-card" data-value="9" data-display="9">9<br></div>
+                <div class="hearts playing-card" data-value="10" data-display="10">10<br></div>
+                <div class="hearts playing-card" data-value="10" data-display="J">J<br></div>
+                <div class="hearts playing-card" data-value="10" data-display="Q">Q<br></div>
+                <div class="hearts playing-card" data-value="10" data-display="K">K<br></div>
             </div>
             <div id="PlayerSection" data-doubled="0">
                 <div class="card-section">
                 </div>
-                <div class="score">0</div>
-                <div id="Results">
-                    <div id="Correct" data-correct="0" data-total="0">
-                        Correct Turns<br />
-                        <span>0 / 0 - 0.00%</span>
+                <button id="HandHistoryButton">
+                    <div class="score">0</div>
+                    <div id="Results">
+                        <div id="Correct" data-correct="0" data-total="0">
+                            Correct Turns<br />
+                            <span>0 / 0 - 0.00%</span>
+                        </div>
+                        <div id="Record" data-profit="0">
+                            Profit<br />
+                            <span>$0</span>
+                        </div>
                     </div>
-                    <div id="Record" data-profit="0">
-                        Profit<br />
-                        <span>$0</span>
-                    </div>
-                </div>
+                </button>
             </div>
         </div>
         <div id="Overlay">
@@ -156,8 +177,40 @@
                 </button>
             </div>
         </div>
+        <div id="HandHistory" class="collapse">
+            <div class="overlay-header">
+                <button type="button" id="SwitchToBasicStrategyGuide">Basic Strategy Guide</button>
+                <button type="button" id="CloseHandHistory">Close</button>
+            </div>
+            <table id="HandHistoryTableTemplate" class="hand-history-table collapse">
+                <thead>
+                    <tr>
+                        <td colspan="5">Dealer Up Card: <span class="dealer-upcard"></span>
+                    </tr>
+                    <tr>
+                        <td>Player Cards</td>
+                        <td>Player Total</td>
+                        <td>Turn</td>
+                        <td>Expected Turn</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="player-cards"></td>
+                        <td class="player-total"></td>
+                        <td class="turn-played"></td>
+                        <td class="expected-turn"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="HandHistoryTableSection">
+            </div>
+        </div>
         <div id="BasicStrategyGuide" class="collapse">
-            <button type="button" id="CloseBasicStrategyGuide">X</button>
+            <div class="overlay-header">
+                <button type="button" id="SwitchToHandHistory">Turn History</button>
+                <button type="button" id="CloseBasicStrategyGuide">Close</button>
+            </div>
             <table id="tblBasicStrategy">
                 <tbody>
                     <tr>

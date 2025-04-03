@@ -183,7 +183,7 @@ function checkTurn(turnType) {
     if (checkPlayerCanSplit() &&
         checkBasicStrategySplits(dealerUpValue, parseInt(playerCards[0].dataset.value))) {
 
-        logBSResult(playerTotal, dealerUpValue, getPlayerScoreAcesLow(), turnType, kSplit);
+        logTurn(turnType, kSplit);
         return turnType === kSplit;
     }
 
@@ -191,12 +191,12 @@ function checkTurn(turnType) {
 
     if (playerTotalIsSoft) {
         const idealTurn = checkBasicStrategySoft(dealerUpValue, playerTotal, canDouble);
-        logBSResult(playerTotal, dealerUpValue, getPlayerScoreAcesLow(), turnType, idealTurn);
+        logTurn(turnType, idealTurn);
         return idealTurn === turnType;
     }
     else {
         const idealTurn = checkBasicStrategyHard(dealerUpValue, playerTotal, canDouble);
-        logBSResult(playerTotal, dealerUpValue, getPlayerScoreAcesLow(), turnType, idealTurn);
+        logTurn(turnType, idealTurn);
         return idealTurn === turnType;
     }
 }
@@ -221,45 +221,4 @@ function updateBasicStrategyScore(turnType) {
     bsScore.dataset.total = total;
     const percent = (correct * 1.0)/total * 100;
     bsScore.querySelector('span').innerText = `${correct} / ${total} - ${percent.toFixed(2)}%`;
-}
-
-function logBSResult(playerScore, dealerUpValue, playerScoreAcesLow, turnPlayed, expectedTurn) {
-    let strTurnPlayed;
-    let strExpectedTurn;
-
-    switch (turnPlayed) {
-        case kHit:
-            strTurnPlayed = 'Hit';
-            break;
-        case kStand: strTurnPlayed = 'Stand';
-            break;
-        case kDouble:
-            strTurnPlayed = 'Double';
-            break;
-        case kSplit:
-            strTurnPlayed = 'Split'
-            break;
-        default:
-            strTurnPlayed = turnPlayed.toString();
-            break;
-    }
-    switch (expectedTurn) {
-        case kHit:
-            strExpectedTurn = 'Hit';
-            break;
-        case kStand: strExpectedTurn = 'Stand';
-            break;
-        case kDouble:
-            strExpectedTurn = 'Double';
-            break;
-        case kSplit:
-            strExpectedTurn = 'Split'
-            break;
-        default:
-            strExpectedTurn = turnPlayed.toString();
-            break;
-    }
-
-    if (turnPlayed !== expectedTurn) {
-    }
 }
