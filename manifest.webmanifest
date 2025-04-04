@@ -3,19 +3,24 @@
     "short_name": "BJT",
     "start_url": "index.html",
     "scope": "/",
-    "background_color": "#5900b3",
-    "theme_color": "black",
+    "background_color": "#0b1e01",
+    "theme_color": "#0b1e01",
     "description": "Train blackjack basic strategy",
     "display": "standalone",
     "orientation": "portrait-primary",
     "icons": [
         {
-            "src": "/icons/web-app-manifest-512x512.png",
+            "src": "/icons/appstore.png",
+            "type": "images/png",
+            "sizes": "1024x1024"
+        }
+        {
+            "src": "/icons/android-chrome-512x512.png",
             "type": "images/png",
             "sizes": "512x512"
         },
         {
-            "src": "/icons/web-app-manifest-192x192.png",
+            "src": "/icons/android-chrome-192x192.png",
             "type": "images/png",
             "sizes": "192x192"
         }
