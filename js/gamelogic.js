@@ -91,10 +91,16 @@ function updateRecord(result) {
     let profitChange = 0;
 
     if (result === kWin) {
-        profitChange = 1;
+        // Blackjack pays 3:2
+        if (getPlayerScore() === 21 && getPlayerSection().querySelectorAll('.playing-card').length === 2) {
+            profitChange = 3;
+        }
+        else {
+            profitChange = 2;
+        }
     }
     else if (result === kLose) {
-        profitChange = -1;
+        profitChange = -2;
     }
     else {
         profitChange = 0;
