@@ -1,4 +1,4 @@
-const staticBlackjack = 'blackjack-trainer-v3';
+const staticBlackjack = 'blackjack-trainer-v3.1';
 const assets = [
     '/',
     '/index.html',
