@@ -34,7 +34,7 @@
 
 #Overlay {
     position: fixed;
-    top: 20%;
+    top: 25%;
     height: 250px;
     width: var(--table-width);
     display: flex;
@@ -81,7 +81,7 @@
         width: 50%;
         border: solid 1px var(--text-color);
         color: var(--text-color);
-        font-size: 20px;
+        font-size: 16px;
     }
 }
 .incorrect {
@@ -104,17 +104,47 @@
 #ButtonsParent {
     height: 100px;
     width: 100%;
+    box-sizing: border-box;
+    padding: 0 1rem;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
+    row-gap: 1rem;
+
+
+    #DealButtonSection {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+
+        button {
+            width: 50%;
+            margin-top: 1rem;
+        }
+    }
+
+
+    #AllTurnsButtons {
+        width: 100%;
+        display: grid;
+        grid-template-areas: "Hit Stand";
+        grid-template-columns: 1fr 1fr;
+        column-gap: 1rem;
+    }
+    #FirstTurnOnlyButtons {
+        width: 100%;
+        display: grid;
+        grid-template-areas: "Split Double Surrender";
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 1rem;
+    }
 
     button {
         height: 3rem;
-        margin: 0.25rem;
         background-color: var(--background-color);
         border: solid 1px var(--text-color);
         font-size: 16px;
         line-height: 0;
-        width: 25%;
     }
 }

@@ -37,6 +37,7 @@
                 document.getElementById('StandButton').addEventListener('click', () => turnButton(kStand));
                 document.getElementById('DoubleButton').addEventListener('click', () => turnButton(kDouble));
                 document.getElementById('SplitButton').addEventListener('click', () => turnButton(kSplit));
+                document.getElementById('SurrenderButton').addEventListener('click', () => turnButton(kSurrender));
 
                 document.getElementById('DealerHeader').addEventListener('click', () => {
                     document.getElementById('BasicStrategyGuide').classList.remove('collapse');
@@ -151,21 +152,30 @@
             <div id="PushText" class="collapse">Push</div>
 
             <div id="ButtonsParent">
-                <button type="button" id="DealButton">
-                    Deal
-                </button>
-                <button type="button" id="HitButton" class="collapse">
-                    Hit
-                </button>
-                <button type="button" id="StandButton" class="collapse">
-                    Stand
-                </button>
-                <button type="button" id="DoubleButton" class="collapse">
-                    Double
-                </button>
-                <button type="button" id="SplitButton" class="collapse">
-                    Split
-                </button>
+                <div id="DealButtonSection">
+                    <button type="button" id="DealButton">
+                        Deal
+                    </button>
+                </div>
+                <div id="AllTurnsButtons" class="collapse">
+                    <button type="button" id="HitButton">
+                        Hit
+                    </button>
+                    <button type="button" id="StandButton">
+                        Stand
+                    </button>
+                </div>
+                <div id="FirstTurnOnlyButtons" class="collapse">
+                    <button type="button" id="SurrenderButton">
+                        Surrender
+                    </button>
+                    <button type="button" id="DoubleButton">
+                        Double
+                    </button>
+                    <button type="button" id="SplitButton">
+                        Split
+                    </button>
+                </div>
             </div>
         </div>
         <div id="HandHistory" class="collapse">

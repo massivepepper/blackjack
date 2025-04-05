@@ -12,11 +12,13 @@ const kDealerStands = 17;
 const kWin = 1;
 const kLose = 2;
 const kPush = 3;
+const kSurrenderResult = 4;
 
 const kHit = 0;
 const kStand = 1;
 const kDouble = 2;
 const kSplit = 3;
+const kSurrender = 4;
 
 function getPlayerSection() {
     return document.getElementById('PlayerSection');
@@ -144,27 +146,24 @@ function updateScore(section) {
  * @param {boolean} gameStarted
  * */
 function showGameplayButtons(gameStarted) {
-    const query = '#HitButton, #StandButton, #DoubleButton, #SplitButton';
-
-    for (const btn of document.querySelectorAll(query)) {
-        if (gameStarted) {
-            btn.classList.remove('collapse');
-            if (btn.id === 'SplitButton' && !checkPlayerCanSplit()) {
-                btn.classList.add('hidden');
-            }
-            else {
-                btn.classList.remove('hidden');
-            }
-        }
-        else {
-            btn.classList.add('collapse');
-        }
-    }
     if (gameStarted) {
-        document.getElementById('DealButton').classList.add('collapse');
+        document.getElementById('DealButtonSection').classList.add('collapse');
+
+        document.getElementById('AllTurnsButtons').classList.remove('collapse');
+        document.getElementById('FirstTurnOnlyButtons').classList.remove('collapse');
+        document.getElementById('FirstTurnOnlyButtons').classList.remove('hidden');
+
+        if (!checkPlayerCanSplit()) {
+            document.getElementById('SplitButton').classList.add('hidden');
+        }
     }
-    else {
-        document.getElementById('DealButton').classList.remove('collapse');
+    else  {
+        document.getElementById('DealButtonSection').classList.remove('collapse');
+
+        document.getElementById('AllTurnsButtons').classList.add('collapse');
+        document.getElementById('FirstTurnOnlyButtons').classList.add('collapse');
+
+        document.getElementById('SplitButton').classList.remove('hidden');
     }
 }
 

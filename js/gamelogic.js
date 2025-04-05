@@ -56,7 +56,7 @@ async function startGame(e) {
     }
     document.querySelector('#Overlay .placeholder').classList.remove('collapse');
 
-    e.target.classList.add('collapse');
+    document.getElementById('DealButtonSection').classList.add('collapse');
 
     dealCard(getDealerSection(), true);
     await sleep(kDealDelay);
@@ -102,6 +102,9 @@ function updateRecord(result) {
     else if (result === kLose) {
         profitChange = -2;
     }
+    else if (result === kSurrenderResult) {
+        profitChange = -1;
+    }
     else {
         profitChange = 0;
     }
@@ -119,7 +122,6 @@ function updateRecord(result) {
 
 function endGame() {
     showAllDealerCards();
-    showGameplayButtons(false);
 
     const playerScore = getPlayerScore();
     const dealerScore = getDealerScore();
@@ -164,11 +166,12 @@ function endGame() {
     const placeholder = document.querySelector('#Overlay .placeholder');
     placeholder.classList.add('collapse');
     textDiv.classList.remove('collapse');
+    showGameplayButtons(false);
 }
 
 async function dealerTurn() {
     showGameplayButtons(false);
-    document.getElementById('DealButton').classList.add('collapse');
+    document.getElementById('DealButtonSection').classList.add('collapse');
     showAllDealerCards();
 
     while (getDealerScore() < kDealerStands) {
@@ -191,10 +194,6 @@ function turnLogic() {
  * @param {number} type
  * */
 function turnButton(type) {
-    for (const btn of document.querySelectorAll('#ButtonsParent button')) {
-        btn.setAttribute('disabled', 'disabled');
-    }
-
     updateBasicStrategyScore(type);
 
     switch (type) {
@@ -210,19 +209,17 @@ function turnButton(type) {
         case kSplit:
             split();
             break;
+        case kSurrender:
+            surrender();
+        break;
         default:
             break;
-    }
-
-    for (const btn of document.querySelectorAll('#ButtonsParent button')) {
-        btn.removeAttribute('disabled');
     }
 }
 
 function hit() {
     logDeal(dealCard(getPlayerSection(), false));
-    document.getElementById('DoubleButton').classList.add('hidden');
-    document.getElementById('SplitButton').classList.add('hidden');
+    document.getElementById('FirstTurnOnlyButtons').classList.add('hidden');
     turnLogic();
     if (getPlayerScore() === kWinningScore) {
         dealerTurn();
@@ -250,6 +247,15 @@ function split() {
     // TODO: Implement
     turnLogic();
     endGameWithNoResult();
+}
+
+function surrender() {
+    showAllDealerCards();
+    showGameplayButtons(false);
+    const placeholder = document.querySelector('#Overlay .placeholder');
+    placeholder.classList.add('collapse');
+    document.getElementById('LoseText').classList.remove('collapse');
+    updateRecord(kSurrenderResult);
 }
 
 /**

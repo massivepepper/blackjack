@@ -53,6 +53,12 @@ function checkBasicStrategyHard(dealerUpCardValue, playerTotal, canDouble) {
     if (playerTotal >= 17) {
         idealTurn = kStand;
     }
+    else if (playerTotal === 16 && canDouble && dealerUpCardValue >= 9) {
+        idealTurn = kSurrender;
+    }
+    else if (playerTotal === 15 && canDouble && dealerUpCardValue === 10) {
+        idealTurn = kSurrender;
+    }
     else if (playerTotal >= 13) {
         if (dealerUpCardValue >= 7) {
             idealTurn = kHit;

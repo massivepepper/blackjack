@@ -60,6 +60,9 @@ function logTurn(turnPlayed, expectedTurn) {
         case kSplit:
             strTurnPlayed = 'Split'
             break;
+        case kSurrender:
+            strTurnPlayed = 'Surrender';
+            break;
         default:
             strTurnPlayed = turnPlayed.toString();
             break;
@@ -75,6 +78,9 @@ function logTurn(turnPlayed, expectedTurn) {
             break;
         case kSplit:
             strExpectedTurn = 'Split'
+            break;
+        case kSurrender:
+            strExpectedTurn = 'Surrender';
             break;
         default:
             strExpectedTurn = turnPlayed.toString();
