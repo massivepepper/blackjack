@@ -20,6 +20,8 @@ const kDouble = 2;
 const kSplit = 3;
 const kSurrender = 4;
 
+const kDeck = new CardDeck();
+
 function getPlayerSection() {
     return document.getElementById('PlayerSection');
 }

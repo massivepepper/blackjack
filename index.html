@@ -12,12 +12,16 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="theme-color" content="black">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="manifest" href="manifest.json">
+        <link rel="manifest" href="manifest.webmanifest">
+        <link rel="icon" href="favicon.ico">
+        <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/popups.css">
         <link rel="stylesheet" href="css/card_deck.css">
         <link rel="stylesheet" href="css/gameplay.css">
+
+        <script type="text/javascript" src="js/card_deck.js"></script>
         <script type="text/javascript" src="js/utilties.js"></script>
         <script type="text/javascript" src="js/turn_log.js"></script>
         <script type="text/javascript" src="js/basic_strategy.js"></script>
@@ -32,12 +36,13 @@
             }
 
             function documentReady() {
-                document.getElementById('DealButton').addEventListener('click', async (e) => startGame(e));
+                document.getElementById('DealButton').addEventListener('click', async () => startGame());
                 document.getElementById('HitButton').addEventListener('click', () => turnButton(kHit));
                 document.getElementById('StandButton').addEventListener('click', () => turnButton(kStand));
                 document.getElementById('DoubleButton').addEventListener('click', () => turnButton(kDouble));
                 document.getElementById('SplitButton').addEventListener('click', () => turnButton(kSplit));
-                document.getElementById('SurrenderButton').addEventListener('click', () => turnButton(kSurrender));
+                document.getElementById('SurrenderButton').addEventListener('click', () =>
+                    turnButton(kSurrender));
 
                 document.getElementById('DealerHeader').addEventListener('click', () => {
                     document.getElementById('BasicStrategyGuide').classList.remove('collapse');
@@ -73,63 +78,10 @@
                 <div class="card-section">
                 </div>
             </div>
-            <div id="PlayingCardDeck">
-                <div class="clubs playing-card" data-value="1" data-display="A">A<br></div>
-                <div class="clubs playing-card" data-value="2" data-display="2">2<br></div>
-                <div class="clubs playing-card" data-value="3" data-display="3">3<br></div>
-                <div class="clubs playing-card" data-value="4" data-display="4">4<br></div>
-                <div class="clubs playing-card" data-value="5" data-display="5">5<br></div>
-                <div class="clubs playing-card" data-value="6" data-display="6">6<br></div>
-                <div class="clubs playing-card" data-value="7" data-display="7">7<br></div>
-                <div class="clubs playing-card" data-value="8" data-display="8">8<br></div>
-                <div class="clubs playing-card" data-value="9" data-display="9">9<br></div>
-                <div class="clubs playing-card" data-value="10" data-display="10">10<br></div>
-                <div class="clubs playing-card" data-value="10" data-display="J">J<br></div>
-                <div class="clubs playing-card" data-value="10" data-display="Q">Q<br></div>
-                <div class="clubs playing-card" data-value="10" data-display="K">K<br></div>
-                <div class="spades playing-card" data-value="1" data-display="A">A<br></div>
-                <div class="spades playing-card" data-value="2" data-display="2">2<br></div>
-                <div class="spades playing-card" data-value="3" data-display="3">3<br></div>
-                <div class="spades playing-card" data-value="4" data-display="4">4<br></div>
-                <div class="spades playing-card" data-value="5" data-display="5">5<br></div>
-                <div class="spades playing-card" data-value="6" data-display="6">6<br></div>
-                <div class="spades playing-card" data-value="7" data-display="7">7<br></div>
-                <div class="spades playing-card" data-value="8" data-display="8">8<br></div>
-                <div class="spades playing-card" data-value="9" data-display="9">9<br></div>
-                <div class="spades playing-card" data-value="10" data-display="10">10<br></div>
-                <div class="spades playing-card" data-value="10" data-display="J">J<br></div>
-                <div class="spades playing-card" data-value="10" data-display="Q">Q<br></div>
-                <div class="spades playing-card" data-value="10" data-display="K">K<br></div>
-                <div class="diamonds playing-card" data-value="1" data-display="A">A<br></div>
-                <div class="diamonds playing-card" data-value="2" data-display="2">2<br></div>
-                <div class="diamonds playing-card" data-value="3" data-display="3">3<br></div>
-                <div class="diamonds playing-card" data-value="4" data-display="4">4<br></div>
-                <div class="diamonds playing-card" data-value="5" data-display="5">5<br></div>
-                <div class="diamonds playing-card" data-value="6" data-display="6">6<br></div>
-                <div class="diamonds playing-card" data-value="7" data-display="7">7<br></div>
-                <div class="diamonds playing-card" data-value="8" data-display="8">8<br></div>
-                <div class="diamonds playing-card" data-value="9" data-display="9">9<br></div>
-                <div class="diamonds playing-card" data-value="10" data-display="10">10<br></div>
-                <div class="diamonds playing-card" data-value="10" data-display="J">J<br></div>
-                <div class="diamonds playing-card" data-value="10" data-display="Q">Q<br></div>
-                <div class="diamonds playing-card" data-value="10" data-display="K">K<br></div>
-                <div class="hearts playing-card" data-value="1" data-display="A">A<br></div>
-                <div class="hearts playing-card" data-value="2" data-display="2">2<br></div>
-                <div class="hearts playing-card" data-value="3" data-display="3">3<br></div>
-                <div class="hearts playing-card" data-value="4" data-display="4">4<br></div>
-                <div class="hearts playing-card" data-value="5" data-display="5">5<br></div>
-                <div class="hearts playing-card" data-value="6" data-display="6">6<br></div>
-                <div class="hearts playing-card" data-value="7" data-display="7">7<br></div>
-                <div class="hearts playing-card" data-value="8" data-display="8">8<br></div>
-                <div class="hearts playing-card" data-value="9" data-display="9">9<br></div>
-                <div class="hearts playing-card" data-value="10" data-display="10">10<br></div>
-                <div class="hearts playing-card" data-value="10" data-display="J">J<br></div>
-                <div class="hearts playing-card" data-value="10" data-display="Q">Q<br></div>
-                <div class="hearts playing-card" data-value="10" data-display="K">K<br></div>
-            </div>
             <div id="PlayerSection" data-doubled="0">
                 <div class="card-section">
                 </div>
+                <div id="PlayerSplitHands" class="collapse"></div>
                 <button id="HandHistoryButton">
                     <div class="score">0</div>
                     <div id="Results">
@@ -150,6 +102,7 @@
             <div id="WinText" class="collapse">Win</div>
             <div id="LoseText" class="collapse">Lose</div>
             <div id="PushText" class="collapse">Push</div>
+            <div id="SurrenderText" class="collapse">Surrender</div>
 
             <div id="ButtonsParent">
                 <div id="DealButtonSection">

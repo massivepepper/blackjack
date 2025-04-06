@@ -5,10 +5,8 @@
  * @param {boolean} flipped
  * */
 function dealCard(targetSection, flipped) {
-    const playingCards = document.querySelectorAll('#PlayingCardDeck > .playing-card');
     const targetDiv = targetSection.querySelector('.card-section');
-    const index = Math.floor(Math.random() * playingCards.length);
-    const dealtCard = playingCards[index];
+    const dealtCard = kDeck.DealCard();
     setCardFlipped(dealtCard, flipped);
 
     targetDiv.appendChild(dealtCard);
@@ -42,16 +40,15 @@ function setCardFlipped(card, flipped) {
 /**
  * @param {Event} e
  * */
-async function startGame(e) {
+async function startGame() {
     getPlayerSection().querySelector('.score').innerText = '0';
     getDealerSection().querySelector('.score').innerText = '0';
-    const deck = document.getElementById('PlayingCardDeck');
     for (const card of
     document.querySelectorAll('#DealerSection .playing-card, #PlayerSection .playing-card')) {
-        deck.appendChild(card);
+        card.remove();
     }
 
-    for (const textDiv of document.querySelectorAll('#WinText, #LoseText, #PushText')) {
+    for (const textDiv of document.querySelectorAll('#WinText, #LoseText, #PushText, #SurrenderText')) {
         textDiv.classList.add('collapse');
     }
     document.querySelector('#Overlay .placeholder').classList.remove('collapse');
@@ -254,7 +251,7 @@ function surrender() {
     showGameplayButtons(false);
     const placeholder = document.querySelector('#Overlay .placeholder');
     placeholder.classList.add('collapse');
-    document.getElementById('LoseText').classList.remove('collapse');
+    document.getElementById('SurrenderText').classList.remove('collapse');
     updateRecord(kSurrenderResult);
 }
 
