@@ -47,6 +47,7 @@ async function startGame() {
     document.querySelectorAll('#DealerSection .playing-card, #PlayerSection .playing-card')) {
         card.remove();
     }
+    kDeck.DiscardDealtCards();
 
     for (const textDiv of document.querySelectorAll('#WinText, #LoseText, #PushText, #SurrenderText')) {
         textDiv.classList.add('collapse');

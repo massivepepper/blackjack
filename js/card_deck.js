@@ -8,6 +8,7 @@ class Card {
     #Value;
     #CardElement;
     #NumAvailable;
+    #NumInPlay;
 
     constructor(display, suit) {
         this.#Display = display;
@@ -22,6 +23,7 @@ class Card {
             this.#Value = parseInt(this.#Display);
         }
         this.#NumAvailable = kNumDecks;
+        this.#NumInPlay = 0;
     }
 
     /**
@@ -33,6 +35,7 @@ class Card {
         }
 
         this.#NumAvailable -= 1;
+        this.#NumInPlay += 1;
 
         if (!this.#CardElement) {
             this.#CardElement = document.createElement('div');
@@ -51,7 +54,11 @@ class Card {
     }
 
     ResetNumAvailable() {
-        this.#NumAvailable = kNumDecks;
+        this.#NumAvailable = kNumDecks - this.#NumInPlay;
+    }
+
+    DiscardInPlay() {
+        this.#NumInPlay = 0;
     }
 }
 
@@ -80,8 +87,10 @@ class CardDeck {
 
         for (const card of this.#DiscardArray) {
             card.ResetNumAvailable();
-            this.#DeckArray.push(card);
-            this.#TotalCardsLeft += kNumDecks;
+            if (card.GetNumAvailable() > 0) {
+                this.#DeckArray.push(card);
+                this.#TotalCardsLeft += card.GetNumAvailable();
+            }
         }
 
         this.#DiscardArray = [];
@@ -109,5 +118,14 @@ class CardDeck {
         this.#TotalCardsLeft -= 1;
 
         return dealtCardElement;
+    }
+
+    DiscardDealtCards() {
+        for (const card of this.#DeckArray) {
+            card.DiscardInPlay();
+        }
+        for (const card of this.#DiscardArray) {
+            card.DiscardInPlay();
+        }
     }
 }
