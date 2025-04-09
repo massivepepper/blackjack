@@ -7,8 +7,6 @@ class Card {
     #Suit;
     #Value;
     #CardElement;
-    #NumAvailable;
-    #NumInPlay;
 
     constructor(display, suit) {
         this.#Display = display;
@@ -22,21 +20,12 @@ class Card {
         else {
             this.#Value = parseInt(this.#Display);
         }
-        this.#NumAvailable = kNumDecks;
-        this.#NumInPlay = 0;
     }
 
     /**
      * Returns this.#CardElement, which will be created if necessary.
      * */
     DealCard() {
-        if (this.#NumAvailable === 0) {
-            return undefined;
-        }
-
-        this.#NumAvailable -= 1;
-        this.#NumInPlay += 1;
-
         if (!this.#CardElement) {
             this.#CardElement = document.createElement('div');
             this.#CardElement.innerHTML = this.#Display + '<br />';
@@ -48,84 +37,55 @@ class Card {
 
         return this.#CardElement;
     }
-
-    GetNumAvailable() {
-        return this.#NumAvailable;
-    }
-
-    ResetNumAvailable() {
-        this.#NumAvailable = kNumDecks - this.#NumInPlay;
-    }
-
-    DiscardInPlay() {
-        this.#NumInPlay = 0;
-    }
 }
 
 class CardDeck {
     #DeckArray;
     #DiscardArray;
-    #TotalCardsLeft;
+    #InPlayArray;
 
     constructor() {
         this.#DeckArray = [];
-        this.#TotalCardsLeft = 0;
 
-        for (const display of kCardDisplays) {
-            for (const suit of kSuits) {
-                this.#DeckArray.push(new Card(display, suit));
-                this.#TotalCardsLeft += kNumDecks;
+        for (let i = 0; i < kNumDecks; i++) {
+            for (const display of kCardDisplays) {
+                for (const suit of kSuits) {
+                    this.#DeckArray.push(new Card(display, suit));
+                }
             }
         }
 
         this.#DiscardArray = [];
+        this.#InPlayArray = [];
     }
 
-    #ResetDeck() {
-        this.#DeckArray = [];
-        this.#TotalCardsLeft = 0;
-
-        for (const card of this.#DiscardArray) {
-            card.ResetNumAvailable();
-            if (card.GetNumAvailable() > 0) {
-                this.#DeckArray.push(card);
-                this.#TotalCardsLeft += card.GetNumAvailable();
-            }
-        }
-
+    #ReshuffleDiscardPile() {
+        this.#DeckArray.push(...this.#DiscardArray);
         this.#DiscardArray = [];
     }
 
     /**
      * Gets a random card HTMLElement from the deck.
-     * Will reshuffle deck if no cards left.
-     * Will update deck and card's NumAvailable
-     * and remove any cards from the Deck array with NumAvailable === 0.
+     * Will reshuffle discarded cards back into deck if no cards left.
      * */
     DealCard() {
-        if (this.#TotalCardsLeft === 0) {
-            this.#ResetDeck();
+        if (this.#DeckArray.length === 0) {
+            this.#ReshuffleDiscardPile();
         }
 
         const index = Math.floor(Math.random() * this.#DeckArray.length);
-        const dealtCard = this.#DeckArray[index];
+        const dealtCard = this.#DeckArray.splice(index, 1)[0];
         const dealtCardElement = dealtCard.DealCard();
-
-        if (dealtCard.GetNumAvailable() === 0) {
-            const deleted = this.#DeckArray.splice(index, 1);
-            this.#DiscardArray.push(deleted[0]);
-        }
-        this.#TotalCardsLeft -= 1;
+        this.#InPlayArray.push(dealtCard);
 
         return dealtCardElement;
     }
 
+    /**
+     * Move cards from InPlayArray to DiscardArray
+     * */
     DiscardDealtCards() {
-        for (const card of this.#DeckArray) {
-            card.DiscardInPlay();
-        }
-        for (const card of this.#DiscardArray) {
-            card.DiscardInPlay();
-        }
+        this.#DiscardArray.push(...this.#InPlayArray);
+        this.#InPlayArray = [];
     }
 }

@@ -9,10 +9,10 @@ function logNewDeal() {
     const newDealTable = getNewDealTableClone();
     newDealTable.id = '';
 
-    const playerCards = getPlayerSection().querySelectorAll('.playing-card');
+    const playerCards = getPlayerActiveHand().querySelectorAll('.playing-card');
     const playerCards_string = playerCards[0].dataset.display + ', ' + playerCards[1].dataset.display;
 
-    const dealerUpCard = getDealerSection().querySelector('.playing-card:not(.flipped)');
+    const dealerUpCard = getDealerActiveHand().querySelector('.playing-card:not(.flipped)');
     newDealTable.querySelector('span.dealer-upcard').innerText = dealerUpCard.dataset.display +
         ' (' + dealerUpCard.dataset.value + ')';
 
@@ -49,18 +49,18 @@ function logTurn(turnPlayed, expectedTurn) {
     let strExpectedTurn;
 
     switch (turnPlayed) {
-        case kHit:
+        case Plays.Hit:
             strTurnPlayed = 'Hit';
             break;
-        case kStand: strTurnPlayed = 'Stand';
+        case Plays.Stand: strTurnPlayed = 'Stand';
             break;
-        case kDouble:
+        case Plays.Double:
             strTurnPlayed = 'Double';
             break;
-        case kSplit:
+        case Plays.Split:
             strTurnPlayed = 'Split'
             break;
-        case kSurrender:
+        case Plays.Surrender:
             strTurnPlayed = 'Surrender';
             break;
         default:
@@ -68,18 +68,18 @@ function logTurn(turnPlayed, expectedTurn) {
             break;
     }
     switch (expectedTurn) {
-        case kHit:
+        case Plays.Hit:
             strExpectedTurn = 'Hit';
             break;
-        case kStand: strExpectedTurn = 'Stand';
+        case Plays.Stand: strExpectedTurn = 'Stand';
             break;
-        case kDouble:
+        case Plays.Double:
             strExpectedTurn = 'Double';
             break;
-        case kSplit:
+        case Plays.Split:
             strExpectedTurn = 'Split'
             break;
-        case kSurrender:
+        case Plays.Surrender:
             strExpectedTurn = 'Surrender';
             break;
         default:

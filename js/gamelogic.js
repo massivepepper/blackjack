@@ -1,12 +1,23 @@
-// Dealing
+/******************************************************************************************
+    Dealing
+******************************************************************************************/
+/**
+ * @param {HTMLElement} targetSection
+ * @param {boolean} flipped
+ * */
+async function dealCardWithDelay(targetSection, flipped) {
+    await sleep(kDealDelay);
+    return dealCard(targetSection, flipped);
+}
 
 /**
  * @param {HTMLElement} targetSection
  * @param {boolean} flipped
  * */
 function dealCard(targetSection, flipped) {
-    const targetDiv = targetSection.querySelector('.card-section');
+    const targetDiv = getActiveHand(targetSection);
     const dealtCard = kDeck.DealCard();
+
     setCardFlipped(dealtCard, flipped);
 
     targetDiv.appendChild(dealtCard);
@@ -16,11 +27,21 @@ function dealCard(targetSection, flipped) {
     return dealtCard;
 }
 
+function dealCardSpecific(targetSection, flipped, dealtCard) {
+    const targetDiv = getActiveHand(targetSection);
+
+    setCardFlipped(dealtCard, flipped);
+
+    targetDiv.appendChild(dealtCard);
+
+    updateScore(targetSection);
+}
+
 /**
  * Reveal all cards in the dealer's hand
  * */
 function showAllDealerCards() {
-    for (const flippedCard of getDealerSection().querySelectorAll('.playing-card.flipped')) {
+    for (const flippedCard of getDealerActiveHand().querySelectorAll('.playing-card.flipped')) {
         setCardFlipped(flippedCard, false);
     }
     updateScore(getDealerSection());
@@ -35,42 +56,61 @@ function setCardFlipped(card, flipped) {
     }
 }
 
-// Turn/Game Logic
-
-/**
- * @param {Event} e
- * */
-async function startGame() {
-    getPlayerSection().querySelector('.score').innerText = '0';
+/******************************************************************************************
+    Start Game Logic
+******************************************************************************************/
+function clearLastGame() {
+    const ps = getPlayerSection();
+    // Reset player and dealer scores.
+    ps.querySelector('.score').innerText = '0';
     getDealerSection().querySelector('.score').innerText = '0';
-    for (const card of
-    document.querySelectorAll('#DealerSection .playing-card, #PlayerSection .playing-card')) {
+    // Clear all cards.
+    kDeck.DiscardDealtCards();
+    const query = '#DealerSection .playing-card, #PlayerSection .playing-card';
+    for (const card of document.querySelectorAll(query)) {
         card.remove();
     }
-    kDeck.DiscardDealtCards();
-
-    for (const textDiv of document.querySelectorAll('#WinText, #LoseText, #PushText, #SurrenderText')) {
-        textDiv.classList.add('collapse');
+    setPlayerActiveHand(0);
+    // Clear all split hands.
+    for (const hand of ps.querySelectorAll('.card-section .hand:not([data-index="0"])')) {
+        hand.remove();
     }
-    document.querySelector('#Overlay .placeholder').classList.remove('collapse');
+    const playerHand = ps.querySelector('.card-section .hand')
+    playerHand.dataset.doubled = 0;
+    playerHand.dataset.active = 1;
+    playerHand.dataset.surrendered = 0;
+    ResultTextHandler.RemoveResultText();
+}
 
-    document.getElementById('DealButtonSection').classList.add('collapse');
-
+/**
+ * Deals player 2 aces for testing purposes. Not taken from deck so these aces are duplicates.
+ * */
+async function initialDealRigged() {
     dealCard(getDealerSection(), true);
+
     await sleep(kDealDelay);
+    dealCardSpecific(getPlayerSection(), false, new Card('A', 'hearts').DealCard());
 
-    dealCard(getPlayerSection(), false);
+    await dealCardWithDelay(getDealerSection(), false);
+
     await sleep(kDealDelay);
+    dealCardSpecific(getPlayerSection(), false, new Card('A', 'spades').DealCard());
+}
 
-    dealCard(getDealerSection(), false);
-    await sleep(kDealDelay);
+async function initialDeal() {
+    dealCard(getDealerSection(), true);
 
-    dealCard(getPlayerSection(), false);
+    await dealCardWithDelay(getPlayerSection(), false);
 
+    await dealCardWithDelay(getDealerSection(), false);
 
-    if (getPlayerScore() === kWinningScore) {
-        getPlayerSection().querySelector('.score').innerText = kBlackjackText;
-        endGame();
+    await dealCardWithDelay(getPlayerSection(), false);
+}
+
+function checkInitialDeal() {
+    if (getPlayerScore() === ImportantScores.Win) {
+        getPlayerSection().querySelector('.score').innerText = ScoreText.Blackjack;
+        nextTurn();
     }
     else {
         showGameplayButtons(true);
@@ -78,29 +118,40 @@ async function startGame() {
     }
 }
 
-/**
- * @param {number} result
- * */
+function startGame() {
+    clearLastGame();
+
+    hideAllButtons();
+
+    initialDeal().then(() => {
+        checkInitialDeal();
+        getDealerSection().dataset.gameOngoing = 1;
+    });
+}
+
+/******************************************************************************************
+    End Game Logic
+******************************************************************************************/
 function updateRecord(result) {
     const recordDiv = document.getElementById('Record');
 
     let profit = parseInt(recordDiv.dataset.profit);
-    let doubled = parseInt(getPlayerSection().dataset.doubled) !== 0;
+    let doubled = parseInt(getPlayerActiveHand().dataset.doubled) === 1;
     let profitChange = 0;
 
-    if (result === kWin) {
+    if (result === HandResults.Win) {
         // Blackjack pays 3:2
-        if (getPlayerScore() === 21 && getPlayerSection().querySelectorAll('.playing-card').length === 2) {
+        if (getPlayerScore() === 21 && getPlayerActiveHand().querySelectorAll('.playing-card').length === 2) {
             profitChange = 3;
         }
         else {
             profitChange = 2;
         }
     }
-    else if (result === kLose) {
+    else if (result === HandResults.Lose) {
         profitChange = -2;
     }
-    else if (result === kSurrenderResult) {
+    else if (result === HandResults.Surrender) {
         profitChange = -1;
     }
     else {
@@ -112,13 +163,13 @@ function updateRecord(result) {
     }
 
     profit = profitChange + profit;
-    getPlayerSection().dataset.doubled = 0;
+    getPlayerActiveHand().dataset.doubled = 0;
     let profitString = profit >= 0 ? '$' + profit : '-$' + Math.abs(profit);
     recordDiv.querySelector('span').innerText = profitString;
     recordDiv.dataset.profit = profit;
 }
 
-function endGame() {
+function showResults() {
     showAllDealerCards();
 
     const playerScore = getPlayerScore();
@@ -126,143 +177,193 @@ function endGame() {
     let result;
 
     // Get result
-    if (playerScore > kWinningScore) {
-        result = kLose;
+    if (parseInt(getPlayerActiveHand().dataset.surrendered) === 1) {
+        result = HandResults.Surrender;
     }
-    else if (dealerScore > kWinningScore) {
-        result = kWin;
+    else if (playerScore > ImportantScores.Win) {
+        result = HandResults.Lose;
+    }
+    else if (dealerScore > ImportantScores.Win) {
+        result = HandResults.Win;
     }
     else if (playerScore > dealerScore) {
-        result = kWin;
+        result = HandResults.Win;
     }
     else if (playerScore < dealerScore) {
-        result = kLose;
+        result = HandResults.Lose;
     }
-    else if (dealerScore === kWinningScore &&
-        getDealerSection().querySelectorAll('.playing-card').length === 2 &&
-        getPlayerSection().querySelectorAll('.playing-card').length > 2) {
+    else if (dealerScore === playerScore) {
+        if (dealerScore === ImportantScores.Win) {
+            const dealerCardLength = getDealerActiveHand().querySelectorAll('.playing-card').length;
+            const playerCardLength = getPlayerActiveHand().querySelectorAll('.playing-card').length;
 
-        // Dealer blackjack beats player's unnatural 21
-        result = kLose;
+            if (dealerCardLength === playerCardLength) {
+                result = HandResults.Push;
+            }
+            // Dealer's blackjack beats player's unnatural 21
+            else if (dealerCardLength === 2) {
+                result = HandResults.Lose;
+            }
+            // Player's blackjack beats dealer's unnatural 21
+            else if (playerCardLength === 2) {
+                result = HandResults.Win;
+            }
+            else {
+                result = HandResults.Push;
+            }
+        }
+        else {
+            result = HandResults.Push;
+        }
     }
     else {
-        result = kPush;
+        result = HandResults.Push;
     }
 
     // Show results
     updateRecord(result);
-    let textDiv;
-    if (result === kWin)  {
-        textDiv = document.getElementById('WinText');
-    }
-    else if (result === kLose) {
-        textDiv = document.getElementById('LoseText');
+    ResultTextHandler.ShowResultText(result);
+}
+
+function endGame() {
+    getDealerSection().dataset.gameOngoing = 0;
+    hideAllButtons();
+
+    if (getPlayerHighestHandIndex() === 0) {
+        dealerTurn().then(() => {
+            showResults();
+            showGameplayButtons(false);
+        });
     }
     else {
-        textDiv = document.getElementById('PushText');
+        showShowResultsButton();
     }
-    const placeholder = document.querySelector('#Overlay .placeholder');
-    placeholder.classList.add('collapse');
-    textDiv.classList.remove('collapse');
-    showGameplayButtons(false);
+}
+
+function showResultsButton() {
+    setPlayerActiveHand(0);
+    dealerTurn().then(() => {
+        showResults();
+        showNextHandButton();
+    });
+}
+
+
+/******************************************************************************************
+    Turn Logic
+******************************************************************************************/
+function checkIfDealerPlays() {
+    const playerHands = getPlayerSection().querySelectorAll('.hand');
+
+    for (const hand of playerHands) {
+        if (parseInt(hand.dataset.surrendered) !== 1 &&
+            !playerHasBlackjack() &&
+            getPlayerScore(hand) <= ImportantScores.Win) {
+
+            return true;
+        }
+    }
+
+    return false;
 }
 
 async function dealerTurn() {
-    showGameplayButtons(false);
-    document.getElementById('DealButtonSection').classList.add('collapse');
     showAllDealerCards();
 
-    while (getDealerScore() < kDealerStands) {
-        await sleep(kDealDelay);
-        dealCard(getDealerSection(), false);
+    if (getPlayerScore() < 21 && checkIfDealerPlays()) {
+        hideAllButtons();
+        while (getDealerScore() < ImportantScores.DealerStands) {
+            await dealCardWithDelay(getDealerSection(), false);
+        }
     }
-    endGame();
 }
 
-/**
- * Checks if the player busted and the game should end.
- * */
-function turnLogic() {
-    if (getPlayerScore() > kWinningScore) {
+function nextTurn() {
+    if (parseInt(getPlayerActiveHand().dataset.index) === getPlayerHighestHandIndex()) {
         endGame();
     }
+    else {
+        showNextHandButton();
+    }
 }
 
-/**
- * @param {number} type
- * */
-function turnButton(type) {
-    updateBasicStrategyScore(type);
+function turnButton(turnType) {
+    updateBasicStrategyScore(turnType);
 
-    switch (type) {
-        case kHit:
+    switch(turnType) {
+        case Plays.Hit:
             hit();
             break;
-        case kStand:
+        case Plays.Stand:
             stand();
             break;
-        case kDouble:
+        case Plays.Double:
             double();
             break;
-        case kSplit:
+        case Plays.Split:
             split();
             break;
-        case kSurrender:
+        case Plays.Surrender:
             surrender();
-        break;
-        default:
             break;
     }
 }
 
 function hit() {
     logDeal(dealCard(getPlayerSection(), false));
-    document.getElementById('FirstTurnOnlyButtons').classList.add('hidden');
-    turnLogic();
-    if (getPlayerScore() === kWinningScore) {
-        dealerTurn();
+    document.getElementById(ElementIDs.FirstTurnOnlyButtons).classList.add('hidden');
+    if (getPlayerScore() >= 21) {
+        nextTurn();
     }
 }
 
 function stand() {
-    turnLogic();
-    dealerTurn();
+    nextTurn();
 }
 
 function double() {
     logDeal(dealCard(getPlayerSection(), false));
-    getPlayerSection().dataset.doubled = 1;
-    turnLogic();
-    if (getPlayerScore() <= 21) {
-        dealerTurn();
-    }
+    getPlayerActiveHand().dataset.doubled = 1;
+    nextTurn();
 }
 
-/**
- * Unimplemented
- * */
 function split() {
-    // TODO: Implement
-    turnLogic();
-    endGameWithNoResult();
+    const newHand = document.createElement('div');
+    newHand.classList.add('hand');
+    newHand.dataset.index = getPlayerHighestHandIndex() + 1;
+    newHand.dataset.active = '0';
+    newHand.appendChild(getPlayerActiveHand().querySelector('.playing-card'));
+    getPlayerSection().querySelector('.card-section').appendChild(newHand);
+    hideAllButtons();
+    dealCardWithDelay(getPlayerSection(), false).then(() => {
+        checkInitialDeal();
+    });
 }
 
 function surrender() {
-    showAllDealerCards();
-    showGameplayButtons(false);
-    const placeholder = document.querySelector('#Overlay .placeholder');
-    placeholder.classList.add('collapse');
-    document.getElementById('SurrenderText').classList.remove('collapse');
-    updateRecord(kSurrenderResult);
+    getPlayerActiveHand().dataset.surrendered = 1;
+    nextTurn();
 }
 
-/**
- * Temporary function until splitting is implemented.
- * */
-function endGameWithNoResult() {
-    showAllDealerCards();
-    showGameplayButtons(false);
-    const placeholder = document.querySelector('#Overlay .placeholder');
-    placeholder.classList.add('collapse');
-    document.getElementById('PushText').classList.remove('collapse');
+function nextHandButton() {
+    setNextPlayerHandActive();
+    ResultTextHandler.RemoveResultText();
+
+    const gameOngoing = parseInt(getDealerSection().dataset.gameOngoing);
+
+    if (gameOngoing === 1) {
+        if (getPlayerActiveHand().querySelectorAll('.playing-card').length < 2) {
+            hideAllButtons();
+            dealCardWithDelay(getPlayerSection(), false).then(() => {
+                checkInitialDeal();
+            });
+        }
+    }
+    else {
+        if (parseInt(getPlayerActiveHand().dataset.index) === getPlayerHighestHandIndex()) {
+            hideAllButtons();
+            showGameplayButtons(false);
+        }
+        showResults();
+    }
 }

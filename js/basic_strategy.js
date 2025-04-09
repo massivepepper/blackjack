@@ -51,55 +51,55 @@ function checkBasicStrategyHard(dealerUpCardValue, playerTotal, canDouble) {
     let idealTurn = -1;
 
     if (playerTotal >= 17) {
-        idealTurn = kStand;
+        idealTurn = Plays.Stand;
     }
     else if (playerTotal === 16 && canDouble && dealerUpCardValue >= 9) {
-        idealTurn = kSurrender;
+        idealTurn = Plays.Surrender;
     }
     else if (playerTotal === 15 && canDouble && dealerUpCardValue === 10) {
-        idealTurn = kSurrender;
+        idealTurn = Plays.Surrender;
     }
     else if (playerTotal >= 13) {
         if (dealerUpCardValue >= 7) {
-            idealTurn = kHit;
+            idealTurn = Plays.Hit;
         }
         else {
-            idealTurn = kStand;
+            idealTurn = Plays.Stand;
         }
     }
     else if (playerTotal === 12) {
         if (dealerUpCardValue <= 3 || dealerUpCardValue >= 7) {
-            idealTurn = kHit;
+            idealTurn = Plays.Hit;
         }
         else if (dealerUpCardValue >= 4 && dealerUpCardValue <= 6) {
-            idealTurn = kStand;
+            idealTurn = Plays.Stand;
         }
     }
     else if (playerTotal === 11) {
-        idealTurn = kDouble;
+        idealTurn = Plays.Double;
     }
     else if (playerTotal === 10) {
         if (dealerUpCardValue <= 9) {
-            idealTurn = kDouble;
+            idealTurn = Plays.Double;
         }
         else if (dealerUpCardValue >= 10) {
-            idealTurn = kHit;
+            idealTurn = Plays.Hit;
         }
     }
     else if (playerTotal === 9) {
         if (dealerUpCardValue === 2 || dealerUpCardValue >= 7) {
-            idealTurn = kHit;
+            idealTurn = Plays.Hit;
         }
         else if (dealerUpCardValue >= 3 && dealerUpCardValue <= 6) {
-            idealTurn = kDouble;
+            idealTurn = Plays.Double;
         }
     }
     else if (playerTotal <= 8) {
-        idealTurn = kHit;
+        idealTurn = Plays.Hit;
     }
 
-    if (!canDouble && idealTurn === kDouble) {
-        idealTurn = kHit;
+    if (!canDouble && idealTurn === Plays.Double) {
+        idealTurn = Plays.Hit;
     }
     return idealTurn;
 }
@@ -114,49 +114,49 @@ function checkBasicStrategySoft(dealerUpCardValue, playerTotal, canDouble) {
     let idealTurn = -1;
 
     if (playerTotal >= 20) {
-        idealTurn = kStand;
+        idealTurn = Plays.Stand;
     }
     else if (playerTotal === 19) {
         if (dealerUpCardValue === 6) {
-            idealTurn = canDouble ? kDouble : kStand;
+            idealTurn = canDouble ? Plays.Double : Plays.Stand;
         }
         else {
-            idealTurn = kStand;
+            idealTurn = Plays.Stand;
         }
     }
     else if (playerTotal === 18) {
         if (dealerUpCardValue <= 6) {
-            idealTurn = canDouble ? kDouble : kStand;
+            idealTurn = canDouble ? Plays.Double : Plays.Stand;
         }
         else if (dealerUpCardValue <= 8) {
-            idealTurn = kStand;
+            idealTurn = Plays.Stand;
         }
         else if (dealerUpCardValue >= 9) {
-            idealTurn = kHit;
+            idealTurn = Plays.Hit;
         }
     }
     else if (playerTotal === 17) {
         if (dealerUpCardValue === 2 || dealerUpCardValue >= 7) {
-            idealTurn = kHit;
+            idealTurn = Plays.Hit;
         }
         else if (dealerUpCardValue >= 3 && dealerUpCardValue <= 6) {
-            idealTurn = canDouble ? kDouble : kHit;
+            idealTurn = canDouble ? Plays.Double : Plays.Hit;
         }
     }
     else if (playerTotal === 16 || playerTotal === 15) {
         if (dealerUpCardValue <= 3 || dealerUpCardValue >= 7) {
-            idealTurn = kHit;
+            idealTurn = Plays.Hit;
         }
         else if (dealerUpCardValue >= 4 && dealerUpCardValue <= 6) {
-            idealTurn = canDouble ? kDouble : kHit;
+            idealTurn = canDouble ? Plays.Double : Plays.Hit;
         }
     }
     else if (playerTotal === 14 || playerTotal === 13) {
         if (dealerUpCardValue <= 4 || dealerUpCardValue >= 7) {
-            idealTurn = kHit;
+            idealTurn = Plays.Hit;
         }
         else if (dealerUpCardValue === 5 || dealerUpCardValue === 6) {
-            idealTurn = canDouble ? kDouble : kHit;
+            idealTurn = canDouble ? Plays.Double : Plays.Hit;
         }
     }
 
@@ -170,13 +170,13 @@ function checkBasicStrategySoft(dealerUpCardValue, playerTotal, canDouble) {
  * */
 function checkTurn(turnType) {
     let dealerUpValue =
-    parseInt(getDealerSection().querySelector('.playing-card:not(.flipped)').dataset.value);
+    parseInt(getDealerActiveHand().querySelector('.playing-card:not(.flipped)').dataset.value);
     // Easier to work with the table if aces are counted as 11.
     if (dealerUpValue === 1) dealerUpValue = 11;
     const playerTotal = getPlayerScore();
 
     let playerTotalIsSoft;
-    if (getPlayerSection().querySelector('.playing-card[data-value="1"]') &&
+    if (getPlayerActiveHand().querySelector('.playing-card[data-value="1"]') &&
         getPlayerScoreAcesLow() <= 11) {
         playerTotalIsSoft = true;
     }
@@ -184,13 +184,13 @@ function checkTurn(turnType) {
         playerTotalIsSoft = false;
     }
 
-    const playerCards = getPlayerSection().querySelectorAll('.playing-card');
+    const playerCards = getPlayerActiveHand().querySelectorAll('.playing-card');
 
     if (checkPlayerCanSplit() &&
         checkBasicStrategySplits(dealerUpValue, parseInt(playerCards[0].dataset.value))) {
 
-        logTurn(turnType, kSplit);
-        return turnType === kSplit;
+        logTurn(turnType, Plays.Split);
+        return turnType === Plays.Split;
     }
 
     const canDouble = playerCards.length === 2;

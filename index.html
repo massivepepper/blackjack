@@ -36,13 +36,17 @@
             }
 
             function documentReady() {
-                document.getElementById('DealButton').addEventListener('click', async () => startGame());
-                document.getElementById('HitButton').addEventListener('click', () => turnButton(kHit));
-                document.getElementById('StandButton').addEventListener('click', () => turnButton(kStand));
-                document.getElementById('DoubleButton').addEventListener('click', () => turnButton(kDouble));
-                document.getElementById('SplitButton').addEventListener('click', () => turnButton(kSplit));
+                document.getElementById('DealButton').addEventListener('click', () => startGame());
+                document.getElementById('HitButton').addEventListener('click', () =>
+                    turnButton(Plays.Hit));
+                document.getElementById('StandButton').addEventListener('click', () =>
+                    turnButton(Plays.Stand));
+                document.getElementById('DoubleButton').addEventListener('click', () =>
+                    turnButton(Plays.Double));
+                document.getElementById('SplitButton').addEventListener('click', () =>
+                    turnButton(Plays.Split));
                 document.getElementById('SurrenderButton').addEventListener('click', () =>
-                    turnButton(kSurrender));
+                    turnButton(Plays.Surrender));
 
                 document.getElementById('DealerHeader').addEventListener('click', () => {
                     document.getElementById('BasicStrategyGuide').classList.remove('collapse');
@@ -65,23 +69,28 @@
                     document.getElementById('HandHistory').classList.remove('collapse');
                     document.getElementById('BasicStrategyGuide').classList.add('collapse');
                 });
+
+                document.getElementById('NextHandButton').addEventListener('click', () => nextHandButton());
+                document.getElementById('ShowResultsButton').addEventListener('click', () =>
+                    showResultsButton());
             }
         </script>
     </head>
     <body>
         <div id="PlayingTable">
-            <div id="DealerSection">
+            <div id="DealerSection" data-active-index="0" data-game-ongoing="0">
                 <button type="button" id="DealerHeader">
                     <div>Basic Strategy Guide</div>
                     <div class="score">0</div>
                 </button>
                 <div class="card-section">
+                    <div class="hand" data-index="0" data-active="1"></div>
                 </div>
             </div>
-            <div id="PlayerSection" data-doubled="0">
+            <div id="PlayerSection" data-active-index="0">
                 <div class="card-section">
+                    <div class="hand" data-doubled="0"  data-index="0" data-active="1"></div>
                 </div>
-                <div id="PlayerSplitHands" class="collapse"></div>
                 <button id="HandHistoryButton">
                     <div class="score">0</div>
                     <div id="Results">
@@ -108,6 +117,16 @@
                 <div id="DealButtonSection">
                     <button type="button" id="DealButton">
                         Deal
+                    </button>
+                </div>
+                <div id="HandNavigationSection" class="collapse">
+                    <button type="button" id="NextHandButton">
+                        Next Hand
+                    </button>
+                </div>
+                <div id="ShowResultsSection" class="collapse">
+                    <button type="button" id="ShowResultsButton">
+                        Show Results
                     </button>
                 </div>
                 <div id="AllTurnsButtons" class="collapse">

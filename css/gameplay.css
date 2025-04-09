@@ -90,12 +90,17 @@
     background-color: #510000;
 }
 
-.card-section {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    min-height: 108px;
+.hand {
+    display: none;
+
+    &[data-active="1"] {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        min-height: 108px;
+    }
 }
+
 .score {
     border: solid 1px var(--text-color);
     color: var(--text-color);
@@ -113,19 +118,20 @@
     justify-content: center;
     row-gap: 1rem;
 
-
-    #DealButtonSection {
+    #DealButtonSection,
+    #HandNavigationSection,
+    #ShowResultsSection {
         width: 100%;
         height: 100%;
         display: flex;
         justify-content: center;
+        column-gap: 1rem;
 
         button {
             width: 50%;
             margin-top: 1rem;
         }
     }
-
 
     #AllTurnsButtons {
         width: 100%;
