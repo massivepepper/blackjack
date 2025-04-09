@@ -270,7 +270,7 @@ function checkIfDealerPlays() {
 async function dealerTurn() {
     showAllDealerCards();
 
-    if (getPlayerScore() < 21 && checkIfDealerPlays()) {
+    if (checkIfDealerPlays()) {
         hideAllButtons();
         while (getDealerScore() < ImportantScores.DealerStands) {
             await dealCardWithDelay(getDealerSection(), false);
