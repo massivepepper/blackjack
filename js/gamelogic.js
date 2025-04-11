@@ -258,7 +258,7 @@ function checkIfDealerPlays() {
     for (const hand of playerHands) {
         if (parseInt(hand.dataset.surrendered) !== 1 &&
             !playerHasBlackjack() &&
-            getPlayerScore(hand) <= ImportantScores.Win) {
+            getScoreForHand(hand) <= ImportantScores.Win) {
 
             return true;
         }
