@@ -2,6 +2,7 @@ const staticBlackjack = 'blackjack-trainer-v4.2';
 const assets = [
     '/',
     '/index.html',
+    '/favicon.ico',
     '/css/main.css',
     '/css/popups.css',
     '/css/gameplay.css',
@@ -12,10 +13,11 @@ const assets = [
     '/js/basic_strategy.js',
     '/js/gamelogic.js',
     '/js/utilities.js',
-    '/js/turn_log.js'
+    '/js/turn_log.js',
+    '/js/card_deck.js'
 ];
 
-self.addEventListener('install', installEvent => {
+self.addEventListener('install', (installEvent) => {
     console.log('[Service Worker] Install');
     installEvent.waitUntil(
         (async () => {
@@ -26,7 +28,7 @@ self.addEventListener('install', installEvent => {
     );
 })
 
-self.addEventListener('fetch', fetchEvent => {
+self.addEventListener('fetch', (fetchEvent) => {
     fetchEvent.respondWith(
         (async() => {
             const r = await caches.match(fetchEvent.request);
@@ -43,7 +45,7 @@ self.addEventListener('fetch', fetchEvent => {
     );
 })
 
-self.addEventListener('activate', e => {
+self.addEventListener('activate', (e) => {
     e.waitUntil(
         caches.keys().then((keyList) => {
             return Promise.all(
