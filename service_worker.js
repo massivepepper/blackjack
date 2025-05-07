@@ -1,20 +1,19 @@
 const staticBlackjack = 'blackjack-trainer-v4.2';
 const assets = [
-    '/',
-    '/index.html',
-    '/favicon.ico',
-    '/css/main.css',
-    '/css/popups.css',
-    '/css/gameplay.css',
-    '/css/card_deck.css',
-    '/icons/android-chrome-192x192.png',
-    '/icons/android-chrome-512x512.png',
-    '/icons/appstore.png',
-    '/js/basic_strategy.js',
-    '/js/gamelogic.js',
-    '/js/utilities.js',
-    '/js/turn_log.js',
-    '/js/card_deck.js'
+    'index.html',
+    'favicon.ico',
+    'css/main.css',
+    'css/popups.css',
+    'css/gameplay.css',
+    'css/card_deck.css',
+    'icons/android-chrome-192x192.png',
+    'icons/android-chrome-512x512.png',
+    'icons/appstore.png',
+    'js/basic_strategy.js',
+    'js/gamelogic.js',
+    'js/utilities.js',
+    'js/turn_log.js',
+    'js/card_deck.js'
 ];
 
 self.addEventListener('install', (installEvent) => {
@@ -23,7 +22,11 @@ self.addEventListener('install', (installEvent) => {
         (async () => {
             const cache = await caches.open(staticBlackjack);
             console.log('[Service Worker] Caching all');
-            await cache.addAll(assets);
+            const stack = [];
+            for (const file of assets) {
+                stack.push(cache.add(file).catch(_ => console.error(`Can't load ${file} to cache`)));
+            }
+            await Promise.all(stack);
         })()
     );
 })
