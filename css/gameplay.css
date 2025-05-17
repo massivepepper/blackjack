@@ -35,7 +35,7 @@
 }
 
 #Overlay {
-    position: fixed;
+    position: absolute;
     top: 25%;
     height: 250px;
     width: var(--table-width);
